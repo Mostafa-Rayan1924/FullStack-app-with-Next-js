@@ -20,7 +20,7 @@ const Header = async () => {
         <nav className="md:flex  hidden">
           <ul className="flex items-center  gap-4 lg:gap-7">
             {links.map((link) => (
-              <LinkLi key={link.id} link={link} />
+              <LinkLi key={link.id} link={link} isAdmin={userData?.isAdmin} />
             ))}
           </ul>
         </nav>
@@ -40,7 +40,7 @@ const Header = async () => {
           </div>
           <ModeToggle />
           <div className="flex md:hidden">
-            <Sidebar />
+            <Sidebar userData={userData} isAdmin={userData?.isAdmin} />
           </div>
         </div>
       </div>

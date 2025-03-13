@@ -78,7 +78,7 @@ export async function DELETE(
       );
     }
     const user = verifyToken(request);
-    if (!user || user.id !== comment.userId || user.isAdmin == false) {
+    if (!user || user.id !== comment.userId) {
       return NextResponse.json(
         { message: "unauthorized access denied" },
         { status: 401 }

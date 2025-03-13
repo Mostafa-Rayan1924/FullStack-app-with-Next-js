@@ -8,14 +8,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, User2 } from "lucide-react";
 import Link from "next/link";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { links } from "@/constants/NavLinks";
 import AuthBtns from "./AuthBtns";
-const Sidebar = () => {
+import { PayloadDataType } from "@/lib/generateToken";
+import LogoutBtn from "./LogoutBtn";
+const Sidebar = ({
+  userData,
+  isAdmin,
+}: {
+  userData: PayloadDataType | null;
+  isAdmin: boolean | undefined;
+}) => {
   let pathname = usePathname();
   let [open, setOpen] = useState(false);
   return (
@@ -46,12 +54,22 @@ const Sidebar = () => {
               } hover:bg-accent p-2
              rounded-lg`}
               href={link.url}>
-              {link.title}
+              {link.title == "Admin" && !isAdmin ? null : link.title}
             </Link>
           ))}
         </div>
         <SheetFooter className="w-full flex items-center sm:justify-center justify-center">
-          <AuthBtns />
+          {userData ? (
+            <div className="flex items-center gap-2">
+              <p className="flex text-sm lg:text-base items-center gap-1 font-semibold capitalize">
+                <User2 className="size-5 lg:size-6 text-primary" />
+                {userData?.username}
+              </p>
+              <LogoutBtn />
+            </div>
+          ) : (
+            <AuthBtns />
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>

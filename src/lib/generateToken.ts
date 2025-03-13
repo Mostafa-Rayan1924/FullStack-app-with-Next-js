@@ -19,7 +19,7 @@ export function verifyToken(request: NextRequest): PayloadDataType | null {
       process.env.JWT_SECRET as string
     ) as PayloadDataType;
   } catch (error) {
-    return null; // إرجاع null إذا كان التوكن غير صالح
+    return null;
   }
 }
 export function verifyTokenForFrontEnd(token: string): PayloadDataType | null {
