@@ -1,16 +1,20 @@
+import { verifyTokenForFrontEnd } from "@/lib/generateToken";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import AdminSidebar from "./AdminSidebar";
-
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("tokenNameInBrowser")?.value;
+  const userData = verifyTokenForFrontEnd(token as string);
+  if (!userData || !userData.isAdmin) return redirect("/");
   return (
-    <div className="flex justify-between items-start  mt-20">
-      <div className="w-16 lg:w-1/5">
-        <AdminSidebar />
-      </div>
-      <div className="w-full lg:w-4/5 mx-4 sm:mx-0">{children}</div>
+    <div className=" mt-28 container">
+      <AdminSidebar />
+      <div>{children}</div>
     </div>
   );
 }

@@ -17,12 +17,13 @@ const CommentBar = ({ articleId }: { articleId: string }) => {
       articleId: parseInt(articleId),
       text: comment,
     };
-    setLoading(true);
     if (comment.trim() == "") {
       setError("Please enter a comment term");
       return;
     }
     try {
+      setLoading(true);
+
       let res = await axios.post(`${DOMAIN}/api/comments`, params);
       if (res.status === 201) {
         setComment("");

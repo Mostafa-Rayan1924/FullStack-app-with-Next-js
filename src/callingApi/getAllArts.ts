@@ -3,11 +3,13 @@ import { SingleArticelType } from "@/types/type";
 import { Article } from "@prisma/client";
 
 export const getAllArts = async ({
-  page = "1",
+  page,
 }: {
   page: string;
 }): Promise<{ data: Article[]; length: number; lengthPerPage: number }> => {
-  const response = await fetch(`${DOMAIN}/api/articles?page=${page}`);
+  const response = await fetch(
+    `${DOMAIN}/api/articles${page ? `?page=${page}` : ""}`
+  );
 
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);

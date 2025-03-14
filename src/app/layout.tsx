@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="scroll-smooth" lang="en">
+    <html className="scroll-smooth overflow-x-hidden" lang="en">
       <body className={`${font.className} overflow-x-hidden antialiased`}>
         <ThemeProvider
           attribute="class"
