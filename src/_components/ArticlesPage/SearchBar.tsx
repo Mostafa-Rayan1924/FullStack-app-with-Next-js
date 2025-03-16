@@ -11,7 +11,6 @@ const SearchBar = () => {
       setError("Please enter a search term");
       return;
     }
-    console.log(search);
     router.push(`/articles/search?searchText=${search}`);
   };
   return (

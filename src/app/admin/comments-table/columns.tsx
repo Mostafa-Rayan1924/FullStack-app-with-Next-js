@@ -1,6 +1,6 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { Delete, Edit2, MoreHorizontal, View } from "lucide-react";
+import { Edit2, MoreHorizontal, View } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 
@@ -14,30 +14,39 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import DeleteItem from "@/callingApi/DeleteItem";
-import DeleteComment from "@/_components/ArticlesPage/comments/DeleteComment";
 import { useRouter } from "next/navigation";
 import { DOMAIN } from "@/constants/domain";
 import axios from "axios";
 import toast from "react-hot-toast";
-export type Articles = {
-  id: string;
-  title: string;
-  createdAt: Date;
-  desc: string;
-};
+import { CommentsType } from "@/types/type";
+// export type CommentsType = {
+//   id: string;
+//   text: string;
+//   userComments: {
+//     username: string;
+//   };
+//   createdAt: Date;
+// };
 
-export const columns: ColumnDef<Articles>[] = [
+export const columns: ColumnDef<CommentsType>[] = [
   {
-    accessorKey: "title",
+    accessorKey: "text",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Title
+          text
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+  },
+  {
+    accessorKey: "username",
+    header: "User",
+    cell: ({ row }) => {
+      return <div>{row.original.userComments.username || "Unknown"}</div>;
     },
   },
   {
@@ -50,18 +59,14 @@ export const columns: ColumnDef<Articles>[] = [
     },
   },
   {
-    accessorKey: "desc",
-    header: "Description",
-  },
-  {
     id: "actions",
     cell: ({ row }) => {
-      const article = row.original;
+      const comment = row.original;
       let router = useRouter();
       const handleDelete = async () => {
         try {
           let response = await axios.delete(
-            `${DOMAIN}/api/articles/${article?.id}`
+            `${DOMAIN}/api/comments/${comment?.id}`
           );
           console.log(response);
           if (response.status === 200) {
@@ -86,19 +91,13 @@ export const columns: ColumnDef<Articles>[] = [
             <DropdownMenuItem>
               <div className="flex items-center gap-1">
                 <View className="size-4 text-gray-500" />
-                <Link href={`/articles/${article.id}`}>View</Link>
+                <Link href={`/articles/${comment.articleId}`}>
+                  View article
+                </Link>
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DeleteItem onConfirm={() => handleDelete()} />
-            <DropdownMenuItem>
-              <Link
-                href={`articles-table/edit/${article.id}`}
-                className="flex items-center gap-1">
-                <Edit2 className="size-4 text-green-500" />
-                edit
-              </Link>
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

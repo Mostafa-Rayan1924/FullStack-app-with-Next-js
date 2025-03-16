@@ -15,7 +15,7 @@ const page = async ({
       <h2 className="text-2xl font-semibold mb-4">
         All Articles <span className="text-primary">({data.data.length})</span>
       </h2>
-      <DataTable columns={columns} data={data.data} />
+      <DataTable columns={columns} data={data.data.reverse()} />
     </div>
   );
 };

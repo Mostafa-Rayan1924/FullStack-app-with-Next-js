@@ -52,7 +52,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const getComments = await prisma.comment.findMany();
+    const getComments = await prisma.comment.findMany({
+      include: {
+        userComments: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+    });
     return NextResponse.json(getComments, { status: 200 });
   } catch (e) {
     return NextResponse.json(

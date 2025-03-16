@@ -21,7 +21,7 @@ const Dashboard = () => {
         <SheetTrigger className="flex justify-end w-full">
           <LayoutDashboard size={30} />
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent side={"left"}>
           <SheetHeader className={"border-b border-border pb-4 "}>
             <SheetTitle className="text-center ">
               Welcome to Dashboard

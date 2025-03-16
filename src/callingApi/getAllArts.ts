@@ -1,6 +1,7 @@
+import { cookies } from "next/headers";
 import { DOMAIN } from "@/constants/domain";
 import { SingleArticelType } from "@/types/type";
-import { Article } from "@prisma/client";
+import { Article, Comment } from "@prisma/client";
 
 export const getAllArts = async ({
   page,
@@ -47,4 +48,21 @@ export const getOneArt = async ({
     throw new Error("Failed to fetch one article");
   }
   return await resposne.json();
+};
+export const getAllComments = async (token: string): Promise<Comment[]> => {
+  try {
+    let resposne = await fetch(`${DOMAIN}/api/comments`, {
+      headers: {
+        Cookie: `tokenNameInBrowser=${token}`,
+      },
+    });
+    if (!resposne.ok) {
+      throw new Error(`HTTP error! Status: ${resposne.status}`);
+    }
+
+    return await resposne.json();
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
 };

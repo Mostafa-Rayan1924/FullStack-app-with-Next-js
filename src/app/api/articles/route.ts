@@ -13,6 +13,9 @@ export async function GET(request: NextRequest) {
       art = await prisma.article.findMany({
         skip: (pgNum - 1) * 6,
         take: 6,
+        orderBy: {
+          createdAt: "desc",
+        },
       });
       return NextResponse.json(
         {

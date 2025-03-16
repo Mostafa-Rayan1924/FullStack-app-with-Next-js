@@ -78,15 +78,15 @@ export async function DELETE(
       );
     }
     const user = verifyToken(request);
-    if (!user || user.id !== comment.userId) {
+    if (user?.id == comment?.userId || user?.isAdmin) {
+      await prisma.comment.delete({ where: { id: parseInt(id) } });
+      return NextResponse.json("comment deleted", { status: 200 });
+    } else {
       return NextResponse.json(
         { message: "unauthorized access denied" },
         { status: 401 }
       );
     }
-
-    await prisma.comment.delete({ where: { id: parseInt(id) } });
-    return NextResponse.json("comment deleted", { status: 200 });
   } catch (e) {
     return NextResponse.json(
       { message: "internal server error" + e },
