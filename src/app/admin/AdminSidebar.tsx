@@ -18,7 +18,7 @@ const Dashboard = () => {
   return (
     <div className="z-50">
       <Sheet>
-        <SheetTrigger className="flex justify-end w-full">
+        <SheetTrigger className="float-right ">
           <LayoutDashboard size={30} />
         </SheetTrigger>
         <SheetContent side={"left"}>
