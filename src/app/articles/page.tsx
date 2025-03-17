@@ -16,7 +16,7 @@ const page = async ({
     <section
       style={{ minHeight: "calc(100vh - 150px)" }}
       className="mt-28 mb-10">
-      <SearchBar />
+      {data.data.length > 0 && <SearchBar />}
       <div className="container  grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {data.data.length > 0 ? (
           data?.data
@@ -25,16 +25,18 @@ const page = async ({
               <ArticleItem key={article.id} article={article} />
             ))
         ) : (
-          <h2 className="text-2xl font-semibold text-center capitalize col-span-3">
-            no articles found
+          <h2 className="text-2xl font-semibold text-center capitalize h-[50vh] grid place-items-center col-span-3">
+            No articles found
           </h2>
         )}
       </div>
-      <PaginationArticles
-        pageNumber={parseInt(page)}
-        numberOfPages={numberOfPages}
-        route="/articles"
-      />
+      {data.data.length > 0 && (
+        <PaginationArticles
+          pageNumber={parseInt(page)}
+          numberOfPages={numberOfPages}
+          route="/articles"
+        />
+      )}
     </section>
   );
 };
